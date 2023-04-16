@@ -9,6 +9,7 @@ export const Home = () => {
     const quoteData = useSelector(state => state.quoteReducer.quote)
     const dispatch = useDispatch()
     const [quote,setQuote] = useState({})
+    const [isExpanded,setIsExpanded] = useState(false)
     useEffect(()=>{
       dispatch(quoteActions.getRandomQuote())
     },[])
@@ -20,22 +21,39 @@ export const Home = () => {
     }
   return (
     <>
-      <div className={"d-flex px-2 " + homeStyle.navbar}>
+    < div className={homeStyle.nav}>
+      <button
+            className={"navbar-toggler "+homeStyle.navbar_toggler}
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-label="Toggle navigation"
+            onClick={()=>{console.log("sdsdfsddf");setIsExpanded(!isExpanded)}}
+          >
+            <span className={"navbar-toggler-icon "+homeStyle.navbar_toggler_icon_white_diary}></span>
+          </button>
+      <div className={"d-flex px-2 " + homeStyle.navbar+" "+ (isExpanded?homeStyle.isExpanded:"")}>
         <div className="col-md-8 my-2 h-100">
-          <Link className={"mx-2 "+homeStyle.navLink +" "+homeStyle.active} to="/">
+          <Link
+            className={"mx-2 " + homeStyle.navLink + " " + homeStyle.active}
+            to="/"
+          >
             Home
           </Link>
-          <Link className={"mx-2 "+homeStyle.navLink} to="/search">
+          <Link className={"mx-2 " + homeStyle.navLink} to="/search">
             Search
           </Link>
-          <Link className={"mx-2 "+homeStyle.navLink} to="/">
+          <Link className={"mx-2 " + homeStyle.navLink} to="/">
             About
           </Link>
         </div>
         <div className="col-md-4 my-1">
-          <div className="dropdown float-end ">
+          <div className={"dropdown float-end " + homeStyle.profileButton}>
             <Link
-              className={"btn btn-secondary dropdown-toggle "+homeStyle.profileButton}
+              className={
+                "btn btn-secondary dropdown-toggle " + homeStyle.profileButton
+              }
               role="button"
               data-bs-toggle="dropdown"
               aria-expanded="false"
@@ -62,10 +80,13 @@ export const Home = () => {
           </div>
         </div>
       </div>
+      </div>
       <div className={`my-2 ${homeStyle.quoteOuterBox}`}>
         <div className={` ${homeStyle.quoteBox}`}>
           <p className={`text-center ${homeStyle.quoteText}`}>{quote.quote}</p>
-          <p className={`text-end ${homeStyle.quoteByText}`}>- {quote.saidBy}</p>
+          <p className={`text-end ${homeStyle.quoteByText}`}>
+            - {quote.saidBy}
+          </p>
         </div>
       </div>
     </>
