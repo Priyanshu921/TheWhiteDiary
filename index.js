@@ -9,6 +9,9 @@ app.use(express.json());
 app.use(cors());
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
  app.use(express.static('frontend/build'));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(path.resolve() + "/frontend/build/index.html"));
+  });
 }
 const port = process.env.PORT || 3001;
 mongoose

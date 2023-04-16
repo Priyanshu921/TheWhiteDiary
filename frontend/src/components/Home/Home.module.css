@@ -1,7 +1,6 @@
 .navbar{
     background-color: #e2d7f4;
     color:#803eeb !important;
-        transition: all 5s ease-out;
 }
 .logoutBtn{
     text-decoration: none;
