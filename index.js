@@ -7,6 +7,7 @@ const app = express();
 app.use(express.urlencoded());
 app.use(express.json());
 app.use(cors());
+app.use("/api/",router)
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
  app.use(express.static('frontend/build'));
   app.get("*", (req, res) => {
@@ -27,4 +28,3 @@ mongoose
     console.log("No Database Found ");
   });
 
-app.use("/api/",router)
