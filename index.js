@@ -1,12 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import userRoutes from "./routes/auth.js";
-import { userLogin } from "./controllers/user.controller.js";
-import { userName } from "./models/username.js";
-import { quote } from "./models/quotes.js";
-import quoteRoutes from "./routes/quote.js";
 import router from "./routes/route.js";
+import path from 'path';
 const app = express();
 app.use(express.urlencoded());
 app.use(express.json());
