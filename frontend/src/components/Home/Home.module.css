@@ -1,0 +1,56 @@
+.navbar{
+    background-color: #e2d7f4;
+    color:#803eeb !important;
+}
+.logoutBtn{
+    text-decoration: none;
+    border: none;
+    background-color: transparent;
+    padding-inline: 0;
+}
+.quoteBox{
+    background-color: #f2f2bc;
+    background: radial-gradient(circle, rgba(254, 233, 169, 1) 0%, rgba(254, 233, 173, 1) 11%, rgba(254, 234, 178, 1) 26%, rgba(254, 234, 180, 1) 33%, rgba(254, 234, 183, 1) 43%, rgba(254, 235, 189, 1) 56%, rgba(255, 236, 201, 1) 67%, rgba(255, 236, 206, 1) 77%, rgba(255, 237, 217, 1) 89%);
+    border-radius: 0px 50px 0px 50px;
+    overflow-y: auto;
+    max-height: 290px;
+}
+.quoteOuterBox{
+    border-radius: 0px 50px 0px 50px;
+    padding:4px;
+    margin: 2rem;
+    border: 2px solid #262833;
+    max-height: 300px;
+}
+.quoteText{
+    text-overflow: wrap;
+    padding:3rem;
+    padding-bottom: 1rem;
+    color:#020414;
+}
+.quoteByText{
+    padding: 1rem;
+    color: #020414;
+    margin-right:2rem;
+}
+.profileButton{
+    background-color: transparent !important;
+    border:none;
+    color:#803eeb;
+    transition: all 0.5s ease-in-out;
+}
+.profileButton:hover,.profileButton:focus{
+    color:#e2d7f4;
+    background-color: #965fee !important;
+}
+.navLink{
+font-size: 1.025rem;
+padding: 10px;
+padding-block:0.9rem;
+transition: all 0.5s ease-in-out;
+height:100%;
+}
+.navLink:hover,.navLink:focus,.navLink.active {
+    color: #7326f0 !important;
+    background-color: #ab80f16c;
+}

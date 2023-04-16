@@ -1,0 +1,34 @@
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import userRoutes from "./routes/auth.js";
+import { userLogin } from "./controllers/user.controller.js";
+import { userName } from "./models/username.js";
+import { quote } from "./models/quotes.js";
+import quoteRoutes from "./routes/quote.js";
+import router from "./routes/route.js";
+const app = express();
+app.use(express.urlencoded());
+app.use(express.json());
+app.use(cors());
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
+ app.use(express.static('frontend/build'));
+ app.get('*', (req, res) => {
+ res.sendFile(path.join(__dirname + '/frontend/build/index.html'));
+ });
+}
+const port = process.env.PORT || 3001;
+mongoose
+  .connect(
+    "mongodb+srv://priyanshu:priyanshu921@naruto.sf8tp46.mongodb.net/theWhiteDiary?retryWrites=true&w=majority"
+  )
+  .then(() => {
+    app.listen(port, () => {
+      console.log("listening at port 3001");
+    });
+  })
+  .catch((error) => {
+    console.log("No Database Found ");
+  });
+
+app.use("/api/",router)
