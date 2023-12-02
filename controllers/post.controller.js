@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import { apiResponse } from "../helper/utils";
-import { post } from "../models/post";
-import { socket } from "../helper/socket";
+import { apiResponse } from "../helper/utils.js";
+import { post } from "../models/post.js";
+import { socket } from "../helper/socket.js";
 export const createPost = async (req, res) => {
   try {
     const { text } = req.body;

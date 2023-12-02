@@ -1,4 +1,4 @@
-import { quote } from "../models/quotes";
+import { quote } from "../models/quotes.js";
 
 export const getRandomQuote = async(req,res) => {
     const noOfQuotes = await quote.count();

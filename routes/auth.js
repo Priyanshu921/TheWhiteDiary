@@ -1,4 +1,4 @@
-import { getUserNames, signUpUser, userLogin } from "../controllers/user.controller";
+import { getUserNames, signUpUser, userLogin } from "../controllers/user.controller.js";
 import express from 'express';
 const userRoutes = express();
 userRoutes.post('/register',signUpUser)
