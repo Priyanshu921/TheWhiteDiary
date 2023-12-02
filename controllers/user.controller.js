@@ -1,6 +1,7 @@
 import { user } from "../models/user";
 import bcrypt from "bcrypt";
 import { userName } from "../models/username";
+import jwt from 'jsonwebtoken';
 
 export const signUpUser = async (req, res) => {
   const { email, password, confirmPassword, userNameCategory } = req.body;
@@ -29,8 +30,8 @@ export const signUpUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     const noOfUserNames = await userName.count({ category: userNameCategory });
-    const selectedUserName = await userName.findOne({category:userNameCategory}).skip(Math.floor(Math.random() * noOfUserNames))
-    const generatedUserName = selectedUserName.name+new Date().getDate()+new Date().getTime()
+    const selectedUserName = await userName.findOne({category:userNameCategory}).skip(Math.floor(Math.random() * noOfUserNames));
+    const generatedUserName = selectedUserName.name+new Date().getDate()+new Date().getTime();
     const userCreated = await user.create({ email, password: hashedPassword, userName:generatedUserName});
     if (userCreated) {
       return res
@@ -57,7 +58,7 @@ export const signUpUser = async (req, res) => {
 export const userLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const userExist = await user.findOne({ email });
+    const userExist = await user.findOne({ email }).lean().exec();
     if (!userExist) {
       return res
         .status(403)
@@ -79,15 +80,19 @@ export const userLogin = async (req, res) => {
           message: "",
         });
     }
+    const userToken = jwt.sign(userExist, process.env.SECRET_KEY, {
+      expiresIn: process.env.EXPIRES_IN,
+    });
     return res
       .status(200)
       .send({
         statusCode: 200,
         error: "",
-        data: userExist,
+        data: {...userExist,userToken},
         message: "logged in",
       });
   } catch (err) {
+    console.log(err);
     return res
       .status(400)
       .send({
@@ -117,7 +122,6 @@ export const getUserNames = async (req, res) => {
       data: userNameCategories,
     });
   } catch (err) {
-    console.log(err)
     return res.status(400).send({
       statusCode: 500,
       error: "probelem while getting user names",

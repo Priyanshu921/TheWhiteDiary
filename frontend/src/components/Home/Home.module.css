@@ -1,12 +1,14 @@
 .navbar{
     background-color: #e2d7f4;
     color:#803eeb !important;
+    font-weight: bold;
 }
 .logoutBtn{
     text-decoration: none;
     border: none;
     background-color: transparent;
     padding-inline: 0;
+    font-weight: bold;
 }
 .quoteBox{
     background-color: #f2f2bc;
@@ -38,6 +40,7 @@
     border:none;
     color:#803eeb;
     transition: all 0.5s ease-in-out;
+    font-weight: bold;
 }
 .profileButton:hover,.profileButton:focus{
     color:#e2d7f4;
@@ -78,11 +81,12 @@ height:100%;
     }
     .navbar {
         flex-direction: column;
-        height: 0px;
+        max-height: 0px;
         overflow: hidden;
+        transition: all ease-in-out 0.5s;
     }
     .navbar.isExpanded{
-        height: 100%;
+        max-height: 430px;
     }
 }
 

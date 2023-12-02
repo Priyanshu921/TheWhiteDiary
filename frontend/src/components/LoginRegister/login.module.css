@@ -7,6 +7,7 @@
   align-items: center;
   padding: 20px;
   flex-direction: column;
+  overflow: hidden !important;
 }
 .innerContainer {
   position: relative;
@@ -65,12 +66,17 @@
 .userSignIn .formBox.active {
   left: 0%;
 }
+
+.authImage{
+  object-fit: cover;
+  object-position: center;
+}
 .signup_image {
   position: relative;
   top: 0;
   left: 150%;
   transition: all 0.5s;
-  width:50%
+  width:50%;
 }
 .signup_image.active {
   left: 0%;
@@ -127,7 +133,7 @@
 }
 @media screen and (max-width: 600px) {
   .innerContainer {
-    width: 85%;
+    width: 90%;
   }
   .alertBox{
     width: 80%;

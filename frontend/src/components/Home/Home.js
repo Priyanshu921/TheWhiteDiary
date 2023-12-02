@@ -4,6 +4,11 @@ import {Link} from 'react-router-dom';
 import homeStyle from './Home.module.css'
 import { userActions } from '../../Actions/userActions';
 import { quoteActions } from '../../Actions/quoteActions';
+import CreatePost from '../CreatePost/CreatePost';
+import PostList from '../Posts/PostList';
+import io from 'socket.io-client'
+import { BASE_URL_WEBSOCKET } from '../../helper';
+import { postActions } from '../../Actions/postActios';
 export const Home = () => {
     const user = useSelector(state => state.userReducer.user)
     const quoteData = useSelector(state => state.quoteReducer.quote)
@@ -12,6 +17,11 @@ export const Home = () => {
     const [isExpanded,setIsExpanded] = useState(false)
     useEffect(()=>{
       dispatch(quoteActions.getRandomQuote())
+      //IO for new post 
+      io(BASE_URL_WEBSOCKET.toString()).on(`newPost`,(payload)=>{
+        dispatch(postActions.addNewPost(payload))
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
     useEffect(() => {
       setQuote(quoteData.data);
@@ -19,9 +29,10 @@ export const Home = () => {
     const handleLogout = () => {
       dispatch(userActions.logout())
     }
+
   return (
     <>
-    < div className={homeStyle.nav}>
+    < div className={` sticky-top ${homeStyle.nav}`}>
       <button
             className={"navbar-toggler "+homeStyle.navbar_toggler}
             type="button"
@@ -81,14 +92,16 @@ export const Home = () => {
         </div>
       </div>
       </div>
-      <div className={`my-2 ${homeStyle.quoteOuterBox}`}>
+      {quote&&<div className={`my-2 ${homeStyle.quoteOuterBox}`}>
         <div className={` ${homeStyle.quoteBox}`}>
           <p className={`text-center ${homeStyle.quoteText}`}>{quote.quote}</p>
           <p className={`text-end ${homeStyle.quoteByText}`}>
             - {quote.saidBy}
           </p>
         </div>
-      </div>
+      </div>}
+      <CreatePost/>  
+      <PostList/>      
     </>
   );
 }

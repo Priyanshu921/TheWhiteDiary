@@ -1,0 +1,17 @@
+@import './variables.scss';
+.userNameInitials {
+    // background-color: #e7cff2;
+  background-color: $lightJasmine;
+    height: fit-content;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding-block: 0.4rem;
+    padding-inline: 1rem;
+    margin-top: 0.2rem;
+    -webkit-user-select: none;
+    /* Safari */
+    -ms-user-select: none;
+    /* IE 10 and IE 11 */
+    user-select: none;
+    /* Standard syntax */
+}

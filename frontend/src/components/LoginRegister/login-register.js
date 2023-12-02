@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import practiseCss from "./login.module.css";
-import axios from "axios";
 import {useNavigate} from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../Actions/userActions";
+// import authImage from '../../../public/Authentication_Wallpaper.jpg'
 
 export const LoginRegister = (props) => {
   const navigate = useNavigate();
@@ -48,8 +48,8 @@ export const LoginRegister = (props) => {
   useEffect(() => {
     if (active === "SignUp") {
       getUserNames();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active]);
 
   useEffect(() => {
@@ -91,12 +91,7 @@ export const LoginRegister = (props) => {
    }, [registeredUser,user]);
 
   const getUserNames = () => {
-    // const userNameCategory = await axios.get(
-    //   "http://localhost:3001/user/getUserNames"
-    // );
-    // setUserNameCategories(userNameCategory?.data?.data);
     dispatch(userActions.getUsernameCategories())
-    // setRegisterUser({...registerUser,email:JSON.stringify(userNameCategory.data.data)})
   };
 
   const Signup = () => {
@@ -141,25 +136,51 @@ export const LoginRegister = (props) => {
           }
           break;
         case "password":
+          const passwordValidator =
+            /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
           if (!event.target.value) {
-            setError({ ...error, registerPassword: "Please enter email" });
+            setError({ ...error, registerPassword: "Please enter password" });
           } else if (
-            !(event.target.value === registerUser.confirmPassword)
+            (
+              event.target.value !== registerUser.confirmPassword &&
+              registerUser?.confirmPassword
+            )
           ) {
-            setError({ ...error, registerPassword: "Passwords don't match", registerConfirmPassword:"Passwords don't match" });
-          } else {
-            setError({ ...error, registerPassword: null,registerConfirmPassword:null});
+            setError({
+              ...error,
+              registerPassword: "Passwords don't match",
+              registerConfirmPassword: "Passwords don't match",
+            });
+          }
+          else if(!passwordValidator.test(event.target.value)){
+            setError({ ...error, registerPassword: "Password must have at least 8 characters, one uppercase letter, one lowercase letter, one digit, and one special character." });
+          }
+           else if (registerUser?.confirmPassword) {
+            setError({
+              ...error,
+              registerPassword: null,
+              registerConfirmPassword: null,
+            });
           }
           break;
         case "confirmPassword":
           if (!event.target.value) {
-            setError({ ...error, registerConfirmPassword: "Please re enter email" });
+            setError({ ...error, registerConfirmPassword: "Please re enter password" });
           } else if (
-            !(event.target.value === registerUser.password)
+            event.target.value !== registerUser.password &&
+            registerUser.password
           ) {
-            setError({ ...error, registerConfirmPassword: "Passwords don't match", registerPassword:"Passwords don't match" });
-          } else {
-            setError({ ...error, registerConfirmPassword: null,registerPassword:null});
+            setError({
+              ...error,
+              registerConfirmPassword: "Passwords don't match",
+              registerPassword: "Passwords don't match",
+            });
+          } else if (registerUser?.password) {
+            setError({
+              ...error,
+              registerConfirmPassword: null,
+              registerPassword: null,
+            });
           }
           break;
         case 'userNameCategory':
@@ -233,7 +254,9 @@ export const LoginRegister = (props) => {
             }`}
           >
             <img
-              src="https://images.unsplash.com/photo-1566228015668-4c45dbc4e2f5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fGxvZ2lufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
+              // src="https://images.unsplash.com/photo-1566228015668-4c45dbc4e2f5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fGxvZ2lufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
+              src="Authentication_Wallpaper.jpg"
+              className={`${practiseCss.authImage}`}
               alt="Login"
             />
           </div>
@@ -394,7 +417,9 @@ export const LoginRegister = (props) => {
             }`}
           >
             <img
-              src="https://images.unsplash.com/photo-1566228015668-4c45dbc4e2f5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fGxvZ2lufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
+              // src="https://images.unsplash.com/photo-1566228015668-4c45dbc4e2f5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fGxvZ2lufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
+              src="Authentication_Wallpaper.jpg"
+              className={`${practiseCss.authImage}`}
               alt="Login"
             />
           </div>

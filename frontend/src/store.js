@@ -6,8 +6,9 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; 
 const epicMiddleware = createEpicMiddleware();
 const persistConfig = {
-  key: "root",
+  key: "twd",
   storage,
+  blacklist:['postReducer']
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 const whiteDiaryStore = configureStore({
