@@ -98,7 +98,14 @@ export const postReducer = (state = initialState, action) => {
         ...state,
         posts: { ...state.posts, data: updatedPostsData },
       };
-    case postActionTypes.GET_POST:
+    case postActionTypes.GET_POSTS:
+      console.log({
+        ...state,
+        posts: {
+          ...state.posts,
+          isLoading:true,
+        },
+      });
       return {
         ...state,
         posts: {
