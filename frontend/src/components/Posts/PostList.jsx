@@ -28,7 +28,7 @@ const PostList = () => {
   };
   const handleScroll = () => {
     if (
-      window.innerHeight + document.documentElement.scrollTop+30 <
+      window.innerHeight + document.documentElement.scrollTop <
       document.documentElement.scrollHeight
     ) {
       return;
