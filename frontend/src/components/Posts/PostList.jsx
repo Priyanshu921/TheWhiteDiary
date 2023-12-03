@@ -40,7 +40,7 @@ const PostList = () => {
     <div className={`d-flex flex-column align-items-center`}>
       {posts.data.length > 0 &&
         posts.data.map((post) => <SinglePost post={post} key={post._id} />)}
-      {!posts.data.length && <h2>No Posts Available</h2>}
+      {!posts.data.length && !posts.isLoading && <h2>No Posts Available</h2>}
       {posts.isLoading && (
         <Rings
           height="180"
