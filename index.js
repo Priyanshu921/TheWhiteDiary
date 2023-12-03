@@ -23,9 +23,6 @@ mongoose
   .then(async() => {
     const server = app.listen(port);
     const io = socket.io(server);
-    io.on('connection',(socket)=>{
-      console.log("socket connection running on port, "+socket)
-    })
     console.log("Server running on port: 3001");
   })
   .catch((error) => {
