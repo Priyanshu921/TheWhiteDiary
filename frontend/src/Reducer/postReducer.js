@@ -9,6 +9,7 @@ const initialState = {
     message: "",
     isNextPageAvailable: false,
     isPreviousPageavailable: false,
+    isLoading:false,
   },
   postDetails: null,
 };
@@ -97,6 +98,14 @@ export const postReducer = (state = initialState, action) => {
         ...state,
         posts: { ...state.posts, data: updatedPostsData },
       };
+    case postActionTypes.GET_POST:
+      return {
+        ...state,
+        posts: {
+          ...state.posts,
+          isLoading:true,
+        },
+      };
     case postActionTypes.GET_POSTS_SUCCESS:
       let postsData = action.payload.data;
       if (state.posts.data.length && action.payload.page > 1) {
@@ -104,11 +113,15 @@ export const postReducer = (state = initialState, action) => {
       }
       return {
         ...state,
-        posts: { ...action.payload, data: postsData },
+        posts: { ...action.payload, data: postsData,isLoading:false },
       };
     case postActionTypes.GET_POSTS_ERROR:
       return {
         ...state,
+        posts: {
+          ...state.posts,
+          isLoading: false,
+        },
       };
     case postActionTypes.CLEAR_POST_UPLOADED:
       return { ...state, postSubmitted: { isSubmitting: false, data: null } };

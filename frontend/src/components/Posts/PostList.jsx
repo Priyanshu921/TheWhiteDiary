@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { postActions } from "../../Actions/postActios";
 
 import SinglePost from "./SinglePost";
+import { Rings } from "react-loader-spinner";
 const PostList = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userReducer.user);
@@ -21,7 +22,7 @@ const PostList = () => {
   }, []);
 
   const getPosts = () => {
-    if (posts.isNextPageAvailable||page===1) {
+    if ((posts.isNextPageAvailable && !posts.isLoading) || page === 1) {
       dispatch(postActions.getPosts({ userToken: user.data.userToken, page }));
     }
   };
@@ -37,9 +38,21 @@ const PostList = () => {
 
   return (
     <div className={`d-flex flex-column align-items-center`}>
-      {posts.data.map((post) => (
-        <SinglePost post={post} />
-      ))}
+      {posts.data.length > 0 &&
+        posts.data.map((post) => <SinglePost post={post} key={post._id} />)}
+      {!posts.data.length && <h2>No Posts Available</h2>}
+      {posts.isLoading && (
+        <Rings
+          height="80"
+          width="80"
+          color="#f2f2bc"
+          radius="100%"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+          ariaLabel="rings-loading"
+        />
+      )}
     </div>
   );
 };
