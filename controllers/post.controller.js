@@ -2,19 +2,21 @@ import mongoose from "mongoose";
 import { apiResponse } from "../helper/utils.js";
 import { post } from "../models/post.js";
 import { socket } from "../helper/socket.js";
+import fs from "fs";
 export const createPost = async (req, res) => {
   try {
     const { text } = req.body;
-    const image = req?.file?(req.user.userName + "_" + req.file.originalname):null;
-    const postCreated = await post
-      .create({
-        text,
-        image,
-        author: new mongoose.Types.ObjectId(req.user._id),
-      })
+    const image = req?.file
+      ? req.user.userName + "_" + req.file.originalname
+      : null;
+    const postCreated = await post.create({
+      text,
+      image,
+      author: new mongoose.Types.ObjectId(req.user._id),
+    });
     await postCreated.populate("author");
     if (postCreated) {
-      console.log(postCreated)
+      console.log(postCreated);
       const io = socket.getIo();
       io.emit("newPost", postCreated);
       return apiResponse(res, {
@@ -24,7 +26,7 @@ export const createPost = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return apiResponse(res, {
       statusCode: 500,
       error: "Problem while creating posts",
@@ -34,15 +36,16 @@ export const createPost = async (req, res) => {
 
 export const getPosts = async (req, res) => {
   try {
-    const page = req.query.page||process.env.page
-    const limit = req.query.limit||process.env.limit
+    const page = req.query.page || process.env.page;
+    const limit = req.query.limit || process.env.limit;
+    console.log(limit);
     let totalPosts = await post.count().lean().exec();
-    let totalPages = Math.ceil(totalPosts/limit);
+    let totalPages = Math.ceil(totalPosts / limit);
     let posts = await post
       .find()
-      .sort({'updatedAt':'desc'})
+      .sort({ updatedAt: "desc" })
       .populate("author", "userName email")
-      .skip((page-1)*limit)
+      .skip((page - 1) * limit)
       .limit(limit)
       .lean()
       .exec();
@@ -64,9 +67,9 @@ export const getPosts = async (req, res) => {
     return apiResponse(res, {
       statusCode: 200,
       data: posts,
-      page:page,
-      isNextPageAvailable:page<totalPages,
-      isPreviousPageavailable:page>1,
+      page: page,
+      isNextPageAvailable: page < totalPages,
+      isPreviousPageavailable: page > 1,
       message: "Posts fetched successfully",
     });
   } catch (error) {
@@ -112,6 +115,41 @@ export const getSinglePost = async (req, res) => {
     return apiResponse(res, {
       statusCode: 500,
       error: "Problem while finding Post details",
+    });
+  }
+};
+
+export const deletePost = async (req, res) => {
+  try {
+    const { postID } = req.params;
+    if (!postID) {
+      return apiResponse(res, {
+        statusCode: 400,
+        error: "Please send valid Post ID",
+      });
+    }
+    const postDetail = await post.findOne({ _id: postID }).lean().exec();
+    console.log(postDetail)
+    if (postDetail?.image) {
+      fs.unlink("../uploads/images/" + postDetail.image,(error)=>{
+        console.log(error);
+        return apiResponse(res, {
+          statusCode: 400,
+          error: "Unable to delete File Please contact Admin for further help.",
+        });
+      });
+    }
+    const postDeleted = await post.deleteOne({_id:postID});
+    if(postDeleted.deletedCount){
+      return apiResponse(res,{statusCode:200,message:"Post Deleted Successfully."});
+    }
+    else{
+      return apiResponse(res,{statusCode:400,error:"Unable to delete post Please contact Admin for further help."})
+    }
+  } catch (error) {
+    return apiResponse(res, {
+      statuCode: 500,
+      error: error.message,
     });
   }
 };
