@@ -121,6 +121,7 @@ export const postReducer = (state = initialState, action) => {
         posts: {
           ...state.posts,
           isLoading: false,
+          isNextPageAvailable: false,
         },
       };
     case postActionTypes.CLEAR_POST_UPLOADED:
