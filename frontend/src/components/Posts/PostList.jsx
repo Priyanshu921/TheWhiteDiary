@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { postActions } from "../../Actions/postActios";
+import { debounce } from "lodash";
 
 import SinglePost from "./SinglePost";
 import { Rings } from "react-loader-spinner";
@@ -8,7 +9,6 @@ const PostList = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userReducer.user);
   const posts = useSelector((state) => state.postReducer.posts);
-
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -26,15 +26,15 @@ const PostList = () => {
       dispatch(postActions.getPosts({ userToken: user.data.userToken, page }));
     }
   };
-  const handleScroll = () => {
+  const handleScroll = debounce(() => {
     if (
-      window.innerHeight + document.documentElement.scrollTop <
+      window.innerHeight + document.documentElement.scrollTop+100 <
       document.documentElement.scrollHeight
     ) {
       return;
     }
     setPage((prevPage) => prevPage + 1);
-  };
+  },500);
 
   return (
     <div className={`d-flex flex-column align-items-center`}>
