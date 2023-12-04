@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { postActions } from "../../Actions/postActios";
-import { debounce,throttle } from "lodash";
+import { debounce } from "lodash";
 
 import SinglePost from "./SinglePost";
 import { Rings } from "react-loader-spinner";
@@ -26,7 +26,7 @@ const PostList = () => {
       dispatch(postActions.getPosts({ userToken: user.data.userToken, page }));
     }
   };
-  const handleScroll = throttle(() => {
+  const handleScroll = debounce(() => {
     if (
       window.innerHeight + document.documentElement.scrollTop+100 <
       document.documentElement.scrollHeight
