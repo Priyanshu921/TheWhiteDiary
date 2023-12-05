@@ -15,7 +15,6 @@ export const createPost = async (req, res) => {
       const jwtToken = await authorize();
       var id = await uploadFile(jwtToken, image);
       fs.unlinkSync(path.join(path.resolve(), "uploads", "images", image));
-      console.log({ id, here: "is" });
     }
     const postCreated = await post.create({
       text,
