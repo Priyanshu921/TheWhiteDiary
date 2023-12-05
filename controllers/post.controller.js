@@ -3,15 +3,23 @@ import { apiResponse } from "../helper/utils.js";
 import { post } from "../models/post.js";
 import { socket } from "../helper/socket.js";
 import fs from "fs";
+import { authorize, uploadFile } from "../helper/uploadFile.js";
+import path from "path";
 export const createPost = async (req, res) => {
   try {
     const { text } = req.body;
     const image = req?.file
       ? req.user.userName + "_" + req.file.originalname
       : null;
+    if (image) {
+      const jwtToken = await authorize();
+      var id = await uploadFile(jwtToken, image);
+      fs.unlinkSync(path.join(path.resolve(), "uploads", "images", image));
+      console.log({ id, here: "is" });
+    }
     const postCreated = await post.create({
       text,
-      image,
+      image: id.data.id,
       author: new mongoose.Types.ObjectId(req.user._id),
     });
     await postCreated.populate("author");
@@ -129,26 +137,25 @@ export const deletePost = async (req, res) => {
       });
     }
     const postDetail = await post.findOne({ _id: postID }).lean().exec();
-    console.log(postDetail)
-    if (postDetail?.image) {
-      fs.unlink("../uploads/images/" + postDetail.image,(error)=>{
-        console.log(error);
-        return apiResponse(res, {
-          statusCode: 400,
-          error: "Unable to delete File Please contact Admin for further help.",
-        });
+    if (!postDetail) {
+      return apiResponse(res, {
+        statusCode: 400,
+        error: "Please send valid Post ID",
       });
     }
-    const postDeleted = await post.deleteOne({_id:postID});
-    if(postDeleted.deletedCount){
-      return apiResponse(res,{statusCode:200,message:"Post Deleted Successfully."});
+    if (postDetail?.image) {
+      fs.unlinkSync("../uploads/images/" + postDetail.image);
     }
-    else{
-      return apiResponse(res,{statusCode:400,error:"Unable to delete post Please contact Admin for further help."})
+    const postDeleted = await post.deleteOne({ _id: postID });
+    if (postDeleted.deletedCount) {
+      return apiResponse(res, {
+        statusCode: 200,
+        message: "Post Deleted Successfully.",
+      });
     }
   } catch (error) {
     return apiResponse(res, {
-      statuCode: 500,
+      statusCode: 500,
       error: error.message,
     });
   }

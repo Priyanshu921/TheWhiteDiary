@@ -30,7 +30,7 @@ export const getPostsEpic = (action$) =>
     ofType(postActionTypes.GET_POSTS),
     mergeMap((action) =>
       from(
-        axios.get(BASE_URL + "post?page="+ action.payload.page+"&&limit=4", { headers: { bearer: action.payload.userToken } })
+        axios.get(BASE_URL + "post?page="+action.payload.page, { headers: { bearer: action.payload.userToken } })
       ).pipe(
         map((response) => postActions.getPostsSuccess(response.data)),
         catchError((error) =>
@@ -39,6 +39,7 @@ export const getPostsEpic = (action$) =>
       )
     )
   );
+  // +"&&limit="+action.payload.limit;
 
 export const likePostEpic = (action$) =>
   action$.pipe(

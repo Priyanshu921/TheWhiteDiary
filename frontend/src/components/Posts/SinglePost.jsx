@@ -3,7 +3,7 @@ import postCSS from "./postList.module.scss";
 import NameInitials from "../utils/NameInitials";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
-import { BASE_URL } from "../../helper";
+import {IMAGE_URL } from "../../helper";
 import { AiFillLike } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { postActions } from "../../Actions/postActios";
@@ -37,7 +37,7 @@ const SinglePost = ({ post }) => {
       {post?.image && (
         <div>
           <img
-            src={`${BASE_URL}image/${post.image}`}
+            src={`${IMAGE_URL}${post.image}`}
             alt={post.image}
             className={`${postCSS.postImage}`}
           />
