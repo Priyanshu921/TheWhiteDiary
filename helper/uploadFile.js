@@ -30,13 +30,12 @@ const filePath = path.join(path.resolve(), "uploads", "images", filename);
       name: path.basename(filename),
     },
   });
-  const permissionsResponse = await drive.permissions.create({
+  const permissionsResponse = drive.permissions.create({
     fileId: file.data.id,
     requestBody: {
       type: "anyone", // Specify the permission type
       role: "writer",
     },
   });
- console.log(permissionsResponse);
   return file;
 }

@@ -23,7 +23,6 @@ export const createPost = async (req, res) => {
     });
     await postCreated.populate("author");
     if (postCreated) {
-      console.log(postCreated);
       const io = socket.getIo();
       io.emit("newPost", postCreated);
       return apiResponse(res, {
@@ -45,7 +44,6 @@ export const getPosts = async (req, res) => {
   try {
     const page = req.query.page || process.env.page;
     const limit = req.query.limit || process.env.limit;
-    console.log(limit);
     let totalPosts = await post.count().lean().exec();
     let totalPages = Math.ceil(totalPosts / limit);
     let posts = await post
