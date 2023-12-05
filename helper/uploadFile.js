@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import process from "process";
 import { google } from "googleapis";
-import {pkey} from "./pkey";
+import {pkey} from "./pkey.js";
 const scopes = ["https://www.googleapis.com/auth/drive.file"];
 
 // authorize user and return jwt token
