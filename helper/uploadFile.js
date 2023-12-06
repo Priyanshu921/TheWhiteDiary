@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import process from "process";
 import { google } from "googleapis";
-import {pkey} from "./pkey.js";
+import { pkey } from "./pkey.js";
 const scopes = ["https://www.googleapis.com/auth/drive.file"];
 
 // authorize user and return jwt token
@@ -19,7 +19,7 @@ export async function authorize() {
 
 export async function uploadFile(authClient, filename) {
   const drive = google.drive({ version: "v3", auth: authClient });
-const filePath = path.join(path.resolve(), "uploads", "images", filename);
+  const filePath = path.join(path.resolve(), "uploads", "images", filename);
   const file = await drive.files.create({
     media: {
       //   body: fs.createReadStream("../uploads/images/" + filename),
@@ -38,4 +38,14 @@ const filePath = path.join(path.resolve(), "uploads", "images", filename);
     },
   });
   return file;
+}
+
+export async function deleteFile(authClient, fileID) {
+  try {
+    const drive = google.drive({ version: "v3", auth: authClient });
+    const fileDeleted = await drive.files.delete({ fileId: fileID });
+    return fileDeleted.status;
+  } catch (error) {
+    return new Error(error.message);
+  }
 }

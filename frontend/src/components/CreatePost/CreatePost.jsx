@@ -74,8 +74,14 @@ const CreatePost = () => {
   };
 
   const submitPost = () => {
-    if (shouldClick) {
-      dispatch(postActions.addPost({text:post.text,image:post.image,token:user?.data?.userToken}));
+    if (shouldClick && !postSubmitted.isSubmitting) {
+      dispatch(
+        postActions.addPost({
+          text: post.text,
+          image: post.image,
+          token: user?.data?.userToken,
+        })
+      );
       shouldClick = false;
       setTimeout(() => {
         shouldClick = true;

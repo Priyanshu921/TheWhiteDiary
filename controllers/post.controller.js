@@ -3,7 +3,7 @@ import { apiResponse } from "../helper/utils.js";
 import { post } from "../models/post.js";
 import { socket } from "../helper/socket.js";
 import fs from "fs";
-import { authorize, uploadFile } from "../helper/uploadFile.js";
+import { authorize, deleteFile, uploadFile } from "../helper/uploadFile.js";
 import path from "path";
 export const createPost = async (req, res) => {
   try {
@@ -127,6 +127,7 @@ export const getSinglePost = async (req, res) => {
 export const deletePost = async (req, res) => {
   try {
     const { postID } = req.params;
+    let fileDeleted = 204;
     if (!postID) {
       return apiResponse(res, {
         statusCode: 400,
@@ -141,10 +142,11 @@ export const deletePost = async (req, res) => {
       });
     }
     if (postDetail?.image) {
-      fs.unlinkSync("../uploads/images/" + postDetail.image);
+      const jwtToken = await authorize();
+      const fileDeleted = await deleteFile(jwtToken,postDetail.image)
     }
     const postDeleted = await post.deleteOne({ _id: postID });
-    if (postDeleted.deletedCount) {
+    if (postDeleted.deletedCount && fileDeleted === 204) {
       return apiResponse(res, {
         statusCode: 200,
         message: "Post Deleted Successfully.",
