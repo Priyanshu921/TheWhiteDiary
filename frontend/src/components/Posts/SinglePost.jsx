@@ -16,6 +16,13 @@ const SinglePost = ({ post }) => {
   // Create formatter (English).
   const timeAgo = new TimeAgo("en-US");
 
+
+  // disable right click on post
+  const handleRightClick = (event)=> {
+    event.preventDefault();
+    console.log(event)
+  }
+
   const addLike = () => {
     if(post.isLiked){
       dispatch(postActions.unlikePost({postID:post._id,user:user.data}))
@@ -25,8 +32,8 @@ const SinglePost = ({ post }) => {
     }
   }
   return (
-    <div className={`${postCSS.singlePostOuterDiv} m-2 p-2 `}>
-      <div className={` d-flex align-items-center mb-4`}>
+    <div className={`${postCSS.singlePostOuterDiv} m-2 p-2 `} onContextMenu={handleRightClick}>
+      <div className={` d-flex align-items-center mb-4 select-none`}>
         <NameInitials nameInitials={post?.author?.userName.split("")[0]} />
         <div className={` mx-4`}>
           <p className={`fw-bold`}>{post?.author?.userName}</p>
