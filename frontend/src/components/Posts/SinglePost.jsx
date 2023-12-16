@@ -53,14 +53,14 @@ const SinglePost = ({ post }) => {
       <p className={`${postCSS.NoOfLikesAndComments}`}>
         <span className={`${postCSS.noOfLikes}`}>{`${post.likes?.length} Likes`}</span>
       </p>
-      <botton className={`btn fw-bold ${postCSS.likeButton}`} onClick={addLike}>
+      <button className={`btn fw-bold ${postCSS.likeButton}`} onClick={addLike}>
         {" "}
         <AiFillLike
           className={`${postCSS.likeIcon}  ${
             post.isLiked ? postCSS.isLiked : "  "
           }`}
         />
-      </botton>
+      </button>
     </div>
   );
 };
