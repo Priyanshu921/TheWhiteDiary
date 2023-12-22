@@ -24,6 +24,7 @@ const PostList = () => {
     return (()=>{
       unselectPost()
     })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getPosts = () => {

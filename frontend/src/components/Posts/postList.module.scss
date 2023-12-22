@@ -59,25 +59,25 @@
   border-radius: 0px;
 }
 
-.zIndex1{
+.zIndex1 {
   z-index: 1;
 }
 /* The Close Button */
 .close {
-    background-color: $danger;
-    padding-inline: 10px;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    position: sticky;
-    top:0;
+  background-color: $danger;
+  padding-inline: 10px;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  position: sticky;
+  top: 0;
 }
 
 .close:hover,
 .close:focus {
-    background-color: $dangerHovered;
-    text-decoration: none;
-    cursor: pointer;
+  background-color: $dangerHovered;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 600px) {
@@ -92,5 +92,9 @@
 @media screen and (max-width: 900px) {
   .singlePostOuterDiv {
     width: 90%;
+  }
+  .FullWidth {
+    width: 100%;
+    margin: 0px !important;
   }
 }
