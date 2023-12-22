@@ -234,7 +234,6 @@ export const addLike = async (req, res) => {
     };
     if (notificationExist) {
       const newUnreadNotification = notificationExist.unreadNotifications + 1;
-      console.log({newUnreadNotification,unreadOld: notificationExist.unreadNotifications});
       notificationAdded = await notificationModel.updateOne(
         { userID: likedPost.author._id },
         {
