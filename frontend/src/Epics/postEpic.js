@@ -39,6 +39,21 @@ export const getPostsEpic = (action$) =>
       )
     )
   );
+
+export const getPostEpic = (action$) =>
+  action$.pipe(
+    ofType(postActionTypes.GET_POST),
+    mergeMap((action) =>
+      from(
+        axios.get(BASE_URL +"post/"+action.payload.postID, { headers: { bearer: action.payload.userToken } })
+      ).pipe(
+        map((response) => postActions.getPostSuccess(response.data)),
+        catchError((error) =>
+          of(postActions.getPostError(error.response.data))
+        )
+      )
+    )
+  );
   // +"&&limit="+action.payload.limit;
 
 export const likePostEpic = (action$) =>
@@ -87,4 +102,10 @@ export const unlikePostEpic = (action$) =>
   //       )
   //     )
   //   );
-export const postEpics = [addPostEpic, getPostsEpic,likePostEpic,unlikePostEpic];
+export const postEpics = [
+  addPostEpic,
+  getPostsEpic,
+  likePostEpic,
+  unlikePostEpic,
+  getPostEpic,
+];

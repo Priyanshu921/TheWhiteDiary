@@ -1,7 +1,6 @@
 import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { LoginRegister } from './components/LoginRegister/login-register'
-import { PrivateComponents } from './PrivateComponents'
 import { PrivateRouter } from './privateRoutes'
 import { Home } from './components/Home/Home'
 import { PageNotFound } from './components/PageNotFound/PageNotFound'

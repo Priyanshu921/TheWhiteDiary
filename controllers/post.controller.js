@@ -5,6 +5,7 @@ import { socket } from "../helper/socket.js";
 import fs from "fs";
 import { authorize, deleteFile, uploadFile } from "../helper/uploadFile.js";
 import path from "path";
+import { notificationModel } from "../models/notification.js";
 export const createPost = async (req, res) => {
   try {
     const { text } = req.body;
@@ -18,7 +19,7 @@ export const createPost = async (req, res) => {
     }
     const postCreated = await post.create({
       text,
-      image: id?.data?.id||null,
+      image: id?.data?.id || null,
       author: new mongoose.Types.ObjectId(req.user._id),
     });
     await postCreated.populate("author");
@@ -97,7 +98,7 @@ export const getSinglePost = async (req, res) => {
     }
     let postDetails = await post
       .findOne({ _id: postID })
-      .populate("comments.commentor", "name")
+      .populate("author", "userName email")
       .lean()
       .exec();
     if (!postDetails) {
@@ -143,7 +144,7 @@ export const deletePost = async (req, res) => {
     }
     if (postDetail?.image) {
       const jwtToken = await authorize();
-      const fileDeleted = await deleteFile(jwtToken,postDetail.image)
+      const fileDeleted = await deleteFile(jwtToken, postDetail.image);
     }
     const postDeleted = await post.deleteOne({ _id: postID });
     if (postDeleted.deletedCount && fileDeleted === 204) {
@@ -218,6 +219,40 @@ export const addLike = async (req, res) => {
       .populate("author")
       .lean()
       .exec();
+    const io = socket.getIo();
+    const message = `Someone Liked your post "${likedPost.text.slice(0, 100)}${
+      likedPost.text.length > 76 ? "..." : "."
+    }"`;
+    const notificationExist = await notificationModel
+      .findOne({ userID: likedPost.author._id })
+      .lean()
+      .exec();
+    let notificationAdded = false;
+    const notificationData = {
+      message: message,
+      _id: likedPost._id,
+    };
+    if (notificationExist) {
+      const newUnreadNotification = notificationExist.unreadNotifications + 1;
+      console.log({newUnreadNotification,unreadOld: notificationExist.unreadNotifications});
+      notificationAdded = await notificationModel.updateOne(
+        { userID: likedPost.author._id },
+        {
+          unreadNotifications: newUnreadNotification,
+          notifications: [notificationData, ...notificationExist.notifications],
+        },
+        { upsert: true }
+      );
+    } else {
+      notificationAdded = await notificationModel.create({
+        userID: likedPost.author._id,
+        unreadNotifications: 1,
+        notifications: notificationData,
+      });
+    }
+    if (notificationAdded) {
+      io.emit(likedPost.author._id.toString(), notificationData);
+    }
     return apiResponse(res, {
       statusCode: 200,
       message: "Like added",

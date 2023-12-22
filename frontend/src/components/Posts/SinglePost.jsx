@@ -8,31 +8,41 @@ import { AiFillLike } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { postActions } from "../../Actions/postActios";
 
-const SinglePost = ({ post }) => {
+const SinglePost = ({ post, isOpenInModal }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userReducer.user);
-  TimeAgo.addDefaultLocale(en);
+  TimeAgo.addLocale(en);
 
   // Create formatter (English).
   const timeAgo = new TimeAgo("en-US");
 
-
   // disable right click on post
-  const handleRightClick = (event)=> {
+  const handleRightClick = (event) => {
     event.preventDefault();
-    console.log(event)
-  }
+  };
 
-  const addLike = () => {
-    if(post.isLiked){
-      dispatch(postActions.unlikePost({postID:post._id,user:user.data}))
+  const addLike = (e) => {
+    if (post.isLiked) {
+      dispatch(postActions.unlikePost({ postID: post._id, user: user.data }));
+    } else {
+      dispatch(postActions.likePost({ postID: post._id, user: user.data }));
     }
-    else{
-      dispatch(postActions.likePost({postID:post._id,user:user.data}))
-    }
-  }
+    e.stopPropagation();
+  };
+
+  const selectPost = (index) => {
+    if(isOpenInModal) return;
+    dispatch(postActions.selectPost(index));
+  };
+
   return (
-    <div className={`${postCSS.singlePostOuterDiv} m-2 p-2 `} onContextMenu={handleRightClick}>
+    <div
+      className={`${postCSS.singlePostOuterDiv} m-2 p-2 ${
+        isOpenInModal ? postCSS.FullWidth : ""
+      }`}
+      onContextMenu={handleRightClick}
+      onClick={(e) => selectPost(post.index,e)}
+    >
       <div className={` d-flex align-items-center mb-4 select-none`}>
         <NameInitials nameInitials={post?.author?.userName.split("")[0]} />
         <div className={` mx-4`}>
@@ -51,7 +61,9 @@ const SinglePost = ({ post }) => {
         </div>
       )}
       <p className={`${postCSS.NoOfLikesAndComments}`}>
-        <span className={`${postCSS.noOfLikes}`}>{`${post.likes?.length} Likes`}</span>
+        <span
+          className={`${postCSS.noOfLikes}`}
+        >{`${post.likes?.length} Likes`}</span>
       </p>
       <button className={`btn fw-bold ${postCSS.likeButton}`} onClick={addLike}>
         {" "}

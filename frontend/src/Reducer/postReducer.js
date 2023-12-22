@@ -9,11 +9,12 @@ const initialState = {
     message: "",
     isNextPageAvailable: false,
     isPreviousPageavailable: false,
-    isLoading:false,
+    isLoading: false,
   },
   postDetails: null,
+  selectedPost:null
 };
-let postData = []
+let postData = [];
 export const postReducer = (state = initialState, action) => {
   switch (action.type) {
     case postActionTypes.ADD_POST:
@@ -103,7 +104,7 @@ export const postReducer = (state = initialState, action) => {
         ...state,
         posts: {
           ...state.posts,
-          isLoading:true,
+          isLoading: true,
         },
       };
     case postActionTypes.GET_POSTS_SUCCESS:
@@ -113,7 +114,7 @@ export const postReducer = (state = initialState, action) => {
       }
       return {
         ...state,
-        posts: { ...action.payload, data: postsData,isLoading:false },
+        posts: { ...action.payload, data: postsData, isLoading: false },
       };
     case postActionTypes.GET_POSTS_ERROR:
       return {
@@ -124,8 +125,28 @@ export const postReducer = (state = initialState, action) => {
           isNextPageAvailable: false,
         },
       };
+    case postActionTypes.GET_POST_SUCCESS:
+      return {
+        ...state,
+        postDetails: { ...action.payload.data },
+      };
+    case postActionTypes.GET_POST_ERROR:
+      return {
+        ...state,
+        postDetails: null,
+      };
     case postActionTypes.CLEAR_POST_UPLOADED:
       return { ...state, postSubmitted: { isSubmitting: false, data: null } };
+
+    case postActionTypes.SELECT_POST:
+      return { ...state, selectedPost: action.payload };
+
+    case postActionTypes.CLEAR_SELECTED_POST:
+      return { ...state, selectedPost: null };
+
+    case postActionTypes.CLEAR_POST_DETAILS:
+      return { ...state, postDetails: null };
+
     default:
       return state;
   }

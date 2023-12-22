@@ -15,6 +15,21 @@ export const userActionTypes = {
   GET_USERNAME_CATEGORIES: "GET_USERNAME_CATEGORIES",
   GET_USERNAME_CATEGORIES_SUCCESS: "GET_USERNAME_CATEGORIES_SUCCESS",
   GET_USERNAME_CATEGORIES_ERROR: "GET_USERNAME_CATEGORIES_ERROR",
+
+
+  GET_NOTIFICATIONS: "GET_NOTIFICATIONS",
+  GET_NOTIFICATIONS_SUCCESS: "GET_NOTIFICATIONS_SUCCESS",
+  GET_NOTIFICATIONS_ERROR: "GET_NOTIFICATIONS_ERROR",
+  
+  ADD_NEW_NOTIFICATIONS: "ADD_NEW_NOTIFICATIONS",
+
+  CLEAR_NOTIFICATIONS: "CLEAR_NOTIFICATIONS",
+  CLEAR_NOTIFICATIONS_SUCCESS: "CLEAR_NOTIFICATIONS_SUCCESS",
+  CLEAR_NOTIFICATIONS_ERROR: "CLEAR_NOTIFICATIONS_ERROR",
+
+  READ_NOTIFICATIONS: "READ_NOTIFICATIONS",
+  READ_NOTIFICATIONS_SUCCESS: "READ_NOTIFICATIONS_SUCCESS",
+  READ_NOTIFICATIONS_ERROR: "READ_NOTIFICATIONS_ERROR",
 };
 export class userActions {
   static register = (payload) => ({
@@ -51,7 +66,6 @@ export class userActions {
 
   static getUsernameCategories = () => ({
     type: userActionTypes.GET_USERNAME_CATEGORIES,
-    
   });
   static getUsernameCategoriesSuccess = (payload) => ({
     type: userActionTypes.GET_USERNAME_CATEGORIES_SUCCESS,
@@ -59,6 +73,50 @@ export class userActions {
   });
   static getUsernameCategoriesError = (payload) => ({
     type: userActionTypes.GET_USERNAME_CATEGORIES_ERROR,
+    payload,
+  });
+
+  static addNewNotifications = (payload) => ({
+    type: userActionTypes.ADD_NEW_NOTIFICATIONS,
+    payload,
+  });
+
+  static getNotifications = (payload) => ({
+    type: userActionTypes.GET_NOTIFICATIONS,
+    payload,
+  });
+  static getNotificationsSuccess = (payload) => ({
+    type: userActionTypes.GET_NOTIFICATIONS_SUCCESS,
+    payload,
+  });
+  static getNotificationsError = (payload) => ({
+    type: userActionTypes.GET_NOTIFICATIONS_ERROR,
+    payload,
+  });
+
+  static clearNotifications = (payload) => ({
+    type: userActionTypes.CLEAR_NOTIFICATIONS,
+    payload
+  });
+  static clearNotificationsSuccess = (payload) => ({
+    type: userActionTypes.CLEAR_NOTIFICATIONS_SUCCESS,
+    payload,
+  });
+  static clearNotificationsError = (payload) => ({
+    type: userActionTypes.CLEAR_NOTIFICATIONS_ERROR,
+    payload,
+  });
+
+  static readNotification = (payload) => ({
+    type: userActionTypes.READ_NOTIFICATIONS,
+    payload,
+  });
+  static readNotificationSuccess = (payload) => ({
+    type: userActionTypes.READ_NOTIFICATIONS_SUCCESS,
+    payload,
+  });
+  static readNotificationError = (payload) => ({
+    type: userActionTypes.READ_NOTIFICATIONS_ERROR,
     payload,
   });
 }

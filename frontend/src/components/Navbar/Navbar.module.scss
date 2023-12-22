@@ -1,0 +1,87 @@
+@import "../utils/variables.scss";
+.navbar {
+  background-color: $veryLigthPurple;
+  color: $primary !important;
+  font-weight: bold;
+}
+
+.logoutBtn {
+  text-decoration: none;
+  border: none;
+  background-color: transparent;
+  padding-inline: 0;
+  font-weight: bold;
+}
+
+.profileButton {
+  background-color: transparent !important;
+  border: none;
+  color: $primary;
+  transition: all 0.5s ease-in-out;
+  font-weight: bold;
+}
+
+.profileButton:hover,
+.profileButton:focus {
+  color: $veryLigthPurple;
+  background-color: #965fee !important;
+}
+
+.navLink {
+  font-size: 1.025rem;
+  padding: 10px;
+  padding-block: 0.9rem;
+  transition: all 0.5s ease-in-out;
+  height: 100%;
+}
+
+.navLink:hover,
+.navLink:focus,
+.navLink.active {
+  color: #7326f0 !important;
+  background-color: #ab80f16c;
+}
+
+.navbar_toggler {
+  display: none;
+}
+@media screen and (max-width: 900px) {
+    .navLink {
+      display: flex;
+      flex-direction: column;
+    }
+
+  .profileButton {
+    float: none !important;
+    margin-inline: 0.5rem;
+  }
+
+  .navbar_toggler_icon_white_diary {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  }
+
+  .nav {
+    background-color: $veryLigthPurple;
+  }
+
+  .navbar_toggler {
+    display: block;
+    padding: 1rem;
+  }
+
+  .navbar {
+    flex-direction: column;
+    max-height: 0px;
+    overflow: hidden;
+    transition: all ease-in-out 0.5s;
+  }
+
+  .navbar.isExpanded {
+    max-height: 430px;
+  }
+
+  .notification {
+    top: 6px;
+    right: 13px;
+  }
+}

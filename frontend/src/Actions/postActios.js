@@ -26,6 +26,11 @@ export const postActionTypes = {
   ADD_COMMENT_ERROR: "ADD_COMMENT_ERROR",
 
   CLEAR_POST_UPLOADED: "CLEAR_POST_UPLOADED",
+
+  SELECT_POST : "SELECT_POST",
+  CLEAR_SELECTED_POST : "CLEAR_SELECTED_POST",
+  CLEAR_POST_DETAILS : "CLEAR_POST_DETAILS",
+
 };
 
 export class postActions {
@@ -60,29 +65,52 @@ export class postActions {
     type: postActionTypes.GET_POSTS_ERROR,
     payload,
   });
+  static getPost = (payload) => ({
+    type: postActionTypes.GET_POST,
+    payload,
+  });
+  static getPostSuccess = (payload) => ({
+    type: postActionTypes.GET_POST_SUCCESS,
+    payload,
+  });
+  static getPostError = (payload) => ({
+    type: postActionTypes.GET_POST_ERROR,
+    payload,
+  });
 
   static likePost = (payload) => ({
-    type:postActionTypes.LIKE_POST,
-    payload
-  })
+    type: postActionTypes.LIKE_POST,
+    payload,
+  });
   static likePostSuccess = (payload) => ({
-    type:postActionTypes.LIKE_POST_SUCCESS,
-    payload
-  })
+    type: postActionTypes.LIKE_POST_SUCCESS,
+    payload,
+  });
   static likePostError = (payload) => ({
-    type:postActionTypes.LIKE_POST_ERROR,
-    payload
-  })
+    type: postActionTypes.LIKE_POST_ERROR,
+    payload,
+  });
   static unlikePost = (payload) => ({
-    type:postActionTypes.UNLIKE_POST,
-    payload
-  })
+    type: postActionTypes.UNLIKE_POST,
+    payload,
+  });
   static unlikePostSuccess = (payload) => ({
-    type:postActionTypes.UNLIKE_POST_SUCCESS,
-    payload
-  })
+    type: postActionTypes.UNLIKE_POST_SUCCESS,
+    payload,
+  });
   static unlikePostError = (payload) => ({
-    type:postActionTypes.UNLIKE_POST_ERROR,
-    payload
-  })
+    type: postActionTypes.UNLIKE_POST_ERROR,
+    payload,
+  });
+
+  static selectPost = (payload) => ({
+    type: postActionTypes.SELECT_POST,
+    payload,
+  });
+  static clearSelectedPost = () => ({
+    type: postActionTypes.CLEAR_SELECTED_POST,
+  });
+  static clearPostDetails = () => ({
+    type: postActionTypes.CLEAR_POST_DETAILS,
+  });
 }

@@ -1,0 +1,65 @@
+@import "../utils/variables.scss";
+.notificationContainer {
+  background-color: $veryLigthPurple;
+  padding: 0px;
+  position: absolute;
+  right: -3px;
+  font-size: 1rem;
+  border: 2px solid $lightPurpleSecond;
+  width: 350px;
+}
+
+.notificationInnerContainer {
+  max-height: 340px;
+  overflow-y: scroll;
+}
+
+.notification {
+  font-size: 1.8rem;
+  position: absolute;
+  top: -4px;
+  right: 221px;
+  right: 150px;  
+}
+
+.singleNotification {
+  width: 100%;
+  padding-block: 3px;
+  padding-inline: 10px;
+  border-top: 1px solid $lightPurpleSecond;
+}
+.clearButton {
+  text-decoration: none;
+  border: none;
+  background-color: transparent;
+  font-weight: bold;
+  color: $primary;
+  padding-inline: 10px;
+}
+
+.notificationCount {
+  background-color: $danger;
+  text-align: center;
+  border-radius: 50%;
+  font-size: 0.6rem;
+  font-weight: bold;
+  color: white;
+  position: relative;
+  bottom: 35px;
+  left: 13px;
+  width: 18px;
+  min-width: 18px;
+  max-width: 18px;
+}
+@media screen and (max-width: 900px) {
+  .notification {
+    top: 2px;
+    right: 13px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .notificationContainer{
+    width:310px;
+  }
+}

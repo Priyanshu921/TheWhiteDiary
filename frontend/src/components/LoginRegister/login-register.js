@@ -59,30 +59,29 @@ export const LoginRegister = (props) => {
   }, [userNames]);
 
    useEffect(() => {
-     if(registeredUser){
-        setUserAlert(registeredUser)
-        if (registeredUser.statusCode === 201) {
-          setRegisterUser({
-            email: "",
-            password: "",
-            confirmPassword: "",
-            userNameCategory: "",
-          });
-          setError({
-            ...error,
-            registerEmail: "",
-            registerPassword: "",
-            registerConfirmPassword: "",
-            registerUserNameCategory: "",
-          });
-          navigate("/login");
-          Signin();
-        }
+     if (registeredUser && active === "SignUp") {
+       setUserAlert(registeredUser);
+       if (registeredUser.statusCode === 201) {
+         setRegisterUser({
+           email: "",
+           password: "",
+           confirmPassword: "",
+           userNameCategory: "",
+         });
+         setError({
+           ...error,
+           registerEmail: "",
+           registerPassword: "",
+           registerConfirmPassword: "",
+           registerUserNameCategory: "",
+         });
+         navigate("/login");
+         Signin();
+       }
      }
-     if(user){
-       setUserAlert(user)
-       if(user.statusCode === 200)
-          navigate("/")
+     if (user && active === "SignIn") {
+       setUserAlert(user);
+       if (user.statusCode === 200) navigate("/");
      }
      return () =>{
       dispatch(userActions.cleanRegisteredUser())
