@@ -197,8 +197,8 @@ export const addComment = async (req, res) => {
 };
 
 export const addLike = async (req, res) => {
+  const { postID } = req.body;
   try {
-    const { postID } = req.body;
     const postUpdated = await post.updateOne(
       { _id: postID, "likes.likedBy": { $ne: req.user._id } },
       {
@@ -209,7 +209,8 @@ export const addLike = async (req, res) => {
     );
     if (!postUpdated.modifiedCount) {
       return apiResponse(res, {
-        statusCode: 400,
+        data: { _id: postID },
+        statusCode: 409,
         error: "Already Liked the post",
       });
     }
@@ -260,6 +261,7 @@ export const addLike = async (req, res) => {
   } catch (err) {
     console.log(err);
     return apiResponse(res, {
+      data: { _id: postID },
       statusCode: 500,
       error: "Problem while Liking the Post",
     });

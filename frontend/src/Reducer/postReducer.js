@@ -12,7 +12,7 @@ const initialState = {
     isLoading: false,
   },
   postDetails: null,
-  selectedPost:null
+  selectedPost: null,
 };
 let postData = [];
 export const postReducer = (state = initialState, action) => {
@@ -44,18 +44,42 @@ export const postReducer = (state = initialState, action) => {
         ...state,
         posts: { ...state.posts, data: postData },
       };
-    case postActionTypes.LIKE_POST_SUCCESS:
-      postData = state.posts.data.map((post) => {
-        if (post._id === action.payload.data._id) {
-          post = action.payload.data;
-        }
-        return post;
-      });
-      return {
-        ...state,
-        posts: { ...state.posts, data: postData },
-      };
+    // case postActionTypes.LIKE_POST_SUCCESS:
+    //   postData = state.posts.data.map((post) => {
+    //     if (post._id === action.payload.data._id) {
+    //       post = action.payload.data;
+    //     }
+    //     return post;
+    //   });
+    //   return {
+    //     ...state,
+    //     posts: { ...state.posts, data: postData },
+    //   };
     case postActionTypes.LIKE_POST_ERROR:
+      if (action.payload.statusCode !== 409) {
+        const likesLength = Array.isArray(state?.posts?.data?.likes)
+          ? state?.posts?.data?.likes?.length
+          : 0;
+        let likes = [];
+        if (likesLength > 0) {
+          likes = state?.posts?.data?.likes.slice(0, likesLength - 1);
+        }
+        postData = state.posts.data.map((post) => {
+          if (post._id === action.payload.data._id) {
+            post = {
+              ...post,
+              isLiked: false,
+              likes: likes,
+            };
+          }
+          return post;
+        });
+        console.log(postData);
+        return {
+          ...state,
+          posts: { ...state.posts, data: postData },
+        };
+      }
       return {
         ...state,
       };
