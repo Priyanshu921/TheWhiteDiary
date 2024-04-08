@@ -19,7 +19,7 @@ export const createPost = async (req, res) => {
     }
     const postCreated = await post.create({
       text,
-      image: id?.data?.id || null,
+      image: id?.secure_url || null,
       author: new mongoose.Types.ObjectId(req.user._id),
     });
     await postCreated.populate("author");

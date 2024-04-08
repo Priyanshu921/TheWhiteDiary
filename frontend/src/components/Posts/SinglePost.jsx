@@ -3,7 +3,6 @@ import postCSS from "./postList.module.scss";
 import NameInitials from "../utils/NameInitials";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
-import {IMAGE_URL } from "../../helper";
 import { AiFillLike } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { postActions } from "../../Actions/postActios";
@@ -54,7 +53,7 @@ const SinglePost = ({ post, isOpenInModal }) => {
       {post?.image && (
         <div>
           <img
-            src={`${IMAGE_URL}${post.image}`}
+            src={`${post.image}`}
             alt={post.image}
             className={`${postCSS.postImage}`}
           />
